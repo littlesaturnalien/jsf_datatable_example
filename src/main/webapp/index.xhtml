@@ -4,7 +4,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
 
-<head>
+<h:head>
     <title>DataTable Example</title>
     <style>
         .ui-datatable {
@@ -16,7 +16,7 @@
             font-size: 16px;
         }
         .ui-datatable th {
-            background-color: #9b59b6;
+            background-color: #8b1986;
             color: white;
             padding: 10px;
         }
@@ -24,14 +24,21 @@
             padding: 10px;
             border-top: 1px solid #ddd;
         }
+        /* Fila alterna con un fondo ligeramente diferente */
         .ui-datatable tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #3e434d; /* Fondo oscuro pero con un leve cambio para filas alternas */
         }
+
+        /* Fila normal con color oscuro */
+        .ui-datatable tr:nth-child(odd) {
+            background-color: #2c2f38; /* Fondo oscuro para las filas impares */
+        }
+
         .ui-datatable tr:hover {
             background-color: #ddd;
         }
         .ui-commandbutton {
-            background-color: #9b59b6;
+            background-color: #8b1986;
             color: white;
             border: none;
             padding: 6px 12px;
@@ -40,10 +47,10 @@
             border-radius: 5px;
         }
         .ui-commandbutton:hover {
-            background-color: #8e44ad;
+            background-color: #FbA1F6;
         }
     </style>
-</head>
+</h:head>
 
 <body>
 <h:form>
@@ -69,21 +76,21 @@
             <f:facet name="header">
                 <h:outputLabel value="ID" />
             </f:facet>
-            <h:outputLabel value="#{product.id}" style="color: darkslateblue" rendered="#{not product.edit}"/>
+            <h:outputLabel value="#{product.id}" rendered="#{not product.edit}"/>
             <h:inputText value="#{product.id}" rendered = "#{product.edit}"/>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Product Name" />
             </f:facet>
-            <h:outputLabel value="#{product.name}" style="color: black" rendered="#{not product.edit}"/>
+            <h:outputLabel value="#{product.name}" rendered="#{not product.edit}"/>
             <h:inputText value="#{product.name}" rendered = "#{product.edit}"/>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Price ($)" />
             </f:facet>
-            <h:outputLabel value="#{product.price}" style="color: black" rendered="#{not product.edit}"/>
+            <h:outputLabel value="#{product.price}" rendered="#{not product.edit}"/>
             <h:inputText value="#{product.price}" rendered = "#{product.edit}"/>
         </h:column>
         <h:column>
@@ -95,6 +102,22 @@
             <h:commandLink action="#{productBean.deleteProduct(product)}" value="Delete" styleClass="ui-commandbutton"/>
         </h:column>
     </h:dataTable>
+
+    <br/>
+    <br/>
+    <h2>With PrimeFaces</h2>
+    <p:dataTable value="#{productBean.products}" var="product" style="width:600px"
+    rendered="#{not empty productBean.products}">
+        <p:column headerText="ID">
+            <h:outputText value = "#{product.id}"/>
+        </p:column>
+        <p:column headerText="Product Name">
+            <h:outputText value = "#{product.name}"/>
+        </p:column>
+        <p:column headerText="Price">
+            <h:outputText value = "$#{product.price}"/>
+        </p:column>
+    </p:dataTable>
 </h:form>
 </body>
 </html>
