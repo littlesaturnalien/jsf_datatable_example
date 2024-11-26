@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+    <title>DataTable Example</title>
+    <style>
+        .ui-datatable {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: 'Playfair Display', 'serif';
+            font-size: 16px;
+        }
+        .ui-datatable th {
+            background-color: #9b59b6;
+            color: white;
+            padding: 10px;
+        }
+        .ui-datatable td {
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .ui-datatable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .ui-datatable tr:hover {
+            background-color: #ddd;
+        }
+        .ui-commandbutton {
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            margin: 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .ui-commandbutton:hover {
+            background-color: #8e44ad;
+        }
+    </style>
+</head>
+
+<body>
+<h:form>
+    <h1>DataTable Example</h1>
+    <h2>Only JSF</h2>
+    <h:panelGrid columns="2">
+        <h:outputLabel value="ID: " for="id" />
+        <h:inputText value="#{productBean.myProduct.id}" id="id" style="width: 150px"/>
+        <h:outputLabel value="Product Name: " for="name" />
+        <h:inputText value="#{productBean.myProduct.name}" id="name" style="width: 150px"/>
+        <h:outputLabel value="Price ($): " for="price" />
+        <h:inputText value="#{productBean.myProduct.price}" id="price" style="width: 150px"/>
+    </h:panelGrid>
+
+    <br />
+    <h:commandButton value="Register" action="#{productBean.addProduct()}" style="width: 240px"/>
+    <br/>
+    <br/>
+
+    <h:dataTable value="#{productBean.products}" var="product" border="4" style="width:600px"
+                 rendered="#{productBean.products.size()>0}" styleClass="ui-datatable">
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="ID" />
+            </f:facet>
+            <h:outputLabel value="#{product.id}" style="color: darkslateblue" rendered="#{not product.edit}"/>
+            <h:inputText value="#{product.id}" rendered = "#{product.edit}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Product Name" />
+            </f:facet>
+            <h:outputLabel value="#{product.name}" style="color: black" rendered="#{not product.edit}"/>
+            <h:inputText value="#{product.name}" rendered = "#{product.edit}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Price ($)" />
+            </f:facet>
+            <h:outputLabel value="#{product.price}" style="color: black" rendered="#{not product.edit}"/>
+            <h:inputText value="#{product.price}" rendered = "#{product.edit}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Actions" />
+            </f:facet>
+            <h:commandLink action="#{productBean.editProduct(product)}" value="Update" rendered="#{not product.edit}" styleClass="ui-commandbutton"/>
+            <h:commandLink action="#{productBean.saveProduct()}" value="Save" rendered="#{product.edit}" styleClass="ui-commandbutton"/>
+            <h:commandLink action="#{productBean.deleteProduct(product)}" value="Delete" styleClass="ui-commandbutton"/>
+        </h:column>
+    </h:dataTable>
+</h:form>
+</body>
+</html>
